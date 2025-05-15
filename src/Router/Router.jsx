@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import HomeLayout from '../layouts/HomeLayout';
+import CategoryNews from '../Components/Pages/CategoryNews';
 
 const router = createBrowserRouter([
     {
@@ -23,7 +24,12 @@ const router = createBrowserRouter([
             {
                 path: "*",
                 element: <h2>404 - Page not found</h2>
+            },
+            {
+                path: '/category/:id',
+                element: <CategoryNews />
             }
+        
         ]
     }
 ]);
