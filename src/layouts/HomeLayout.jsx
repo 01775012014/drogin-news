@@ -5,31 +5,32 @@ import LatestNews from '../Components/LetestNews';
 import Navbar from '../Components/Navbar'
 import { NavLink } from 'react-router-dom';
 import LeftAside from '../Components/homLayout/LeftAside.jsx';
+import RightAside from '../Components/homLayout/RightAside.jsx'
 
 const HomeLayout = () => {
     return (
         <div>
-            <header className=' w-11/12 flex flex-col '>
+            <header className='w-11/12 mx-auto my-3'>
                 <Header />
                 <section className=' items-center justify-center'>
                     <LatestNews />
                 </section>
                
-                    <Navbar />
+                <Navbar />
                
 
             </header>
-            <main>
+            <main className='w-11/12 mx-auto my-3  grid grid-cols-12 gap-4'>
                 
-               <aside>
-                <LeftAside></LeftAside>
+               <aside className='col-span-3'>
+                <LeftAside />
                </aside>
-                <section className='main'>
+                <section className='main col-span-6'>
                     <Outlet />
-                    
-
                 </section>
-                <section className='right-nav'></section>
+                <aside className='col-span-3'>
+                    <RightAside />
+                </aside>
             </main>
         </div>
     );
