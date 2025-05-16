@@ -25,9 +25,16 @@ const router = createBrowserRouter([
                 path: "*",
                 element: <h2>404 - Page not found</h2>
             },
-            {
-                path: '/category/:id',
-                element: <CategoryNews />
+            {                path: '/category/:id',
+                element: <CategoryNews />,
+                loader: async () => {
+                    const response = await fetch("/demo-data/news.json");
+                    if (!response.ok) {
+                        throw new Error(`Failed to load news: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return data;
+                },
             }
         
         ]
