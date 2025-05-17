@@ -1,7 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const fullName = form.fullName.value;
+        const photoUrl = form.photoUrl.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                updateUserProfile(user, fullName, photoUrl)
+                    .then(() => {
+                        console.log('Profile updated successfully');
+                        navigate('/home');
+                    })
+                    .catch((error) => {
+                        console.error('Error updating profile:', error);
+                    });
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
+    }
     
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
@@ -11,7 +40,10 @@ const Register = () => {
                 </div>
                 
                 <div className="bg-white py-8 px-6 shadow rounded-lg">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleRegister}>
+
+                        {/* fullName */}
+
                         <div>
                             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                                 Full Name
@@ -25,6 +57,8 @@ const Register = () => {
                                 placeholder="Full Name"
                             />
                         </div>
+
+                        {/* photoUrl */}
 
                         <div>
                             <label htmlFor="photoUrl" className="block text-sm font-medium text-gray-700">
@@ -40,6 +74,8 @@ const Register = () => {
                             />
                         </div>
 
+                        {/* email */}
+
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email
@@ -53,6 +89,8 @@ const Register = () => {
                                 placeholder="Email"
                             />
                         </div>
+
+                        {/* password */}
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">

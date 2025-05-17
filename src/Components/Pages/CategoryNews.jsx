@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
 import { FaRegBookmark, FaShareAlt, FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 // Format the date from ISO to display format
 const formatDate = (isoDate) => {
@@ -18,7 +19,8 @@ const NewsCard = ({ news }) => {
     thumbnail_url,
     details,
     rating,
-    total_view
+    total_view,
+    id
   } = news;
 
   // Format tags for display
@@ -69,7 +71,7 @@ const NewsCard = ({ news }) => {
         <div className="text-gray-700 mb-4">
           <p>{previewText}</p>
           <div className="mt-4">
-            <span className="text-orange-500 hover:underline cursor-pointer">Read More</span>
+            <Link to={`/NewsDetails/${id}`} className="text-orange-500 hover:underline cursor-pointer">Read More</Link>
           </div>
         </div>
 
