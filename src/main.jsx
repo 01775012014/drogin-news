@@ -12,7 +12,7 @@ import { Toaster } from 'react-hot-toast'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} fallbackElement={<div>Loading...</div>} />
     </AuthProvider>
     <Toaster position="top-center" reverseOrder={false} />
   </React.StrictMode>,
