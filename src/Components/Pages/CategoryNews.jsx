@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useLoaderData, useParams } from 'react-router';
+import React, { useEffect, useState, useContext } from 'react';
+import { useLoaderData, useParams, useNavigate } from 'react-router-dom';
 import { FaRegBookmark, FaShareAlt, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 // Format the date from ISO to display format
 const formatDate = (isoDate) => {
@@ -12,6 +13,8 @@ const formatDate = (isoDate) => {
 
 // NewsCard component to display individual news items
 const NewsCard = ({ news }) => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     title,
     author,
@@ -28,6 +31,15 @@ const NewsCard = ({ news }) => {
 
   // Get first paragraph of details as preview
   const previewText = details ? details.substring(0, 200) + "..." : "";
+
+  const handleReadMore = (e) => {
+    e.preventDefault();
+    if (user) {
+      navigate(`/NewsDetails/${id}`);
+    } else {
+      navigate('/auth/login');
+    }
+  };
 
   return (
     <div className="bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden mb-4">      {/* Author and share section */}
@@ -71,7 +83,12 @@ const NewsCard = ({ news }) => {
         <div className="text-gray-700 mb-4">
           <p>{previewText}</p>
           <div className="mt-4">
-            <Link to={`/NewsDetails/${id}`} className="text-orange-500 hover:underline cursor-pointer">Read More</Link>
+            <button 
+              onClick={handleReadMore}
+              className="text-orange-500 hover:underline cursor-pointer"
+            >
+              Read More
+            </button>
           </div>
         </div>
 

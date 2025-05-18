@@ -1,8 +1,10 @@
-import React from 'react';
+import React from 'react';import { IoChevronBackSharp } from "react-icons/io5";
 import { FaRegBookmark, FaShareAlt, FaStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const NewsDetails = ({ news }) => {
-    const { title, author, thumbnail_url, details, rating, total_view, tags = [] } = news;
+    const navigate = useNavigate();
+    const { title, author, thumbnail_url, details, rating, total_view, tags = [], category_id } = news;
 
     // Format the date from ISO to display format
     const formatDate = (isoDate) => {
@@ -13,6 +15,10 @@ const NewsDetails = ({ news }) => {
 
     // Format tags for display
     const formattedTags = tags.map(tag => tag.charAt(0).toUpperCase() + tag.slice(1)).join(', ');
+
+    const handleCategoryClick = () => {
+        navigate(`/category/${category_id}`);
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -69,6 +75,16 @@ const NewsDetails = ({ news }) => {
 
                     {/* Rating and views section */}
                     <div className="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+                        <div>
+                            <button 
+                                onClick={handleCategoryClick}
+                                className="text-orange-500 hover:underline font-medium"
+
+                            >
+                                <button className="btn btn-active btn-error"><IoChevronBackSharp />All news in this category</button>
+                                
+                            </button>
+                        </div>
                         <div className="flex items-center gap-2">
                             {[...Array(5)].map((_, i) => (
                                 <FaStar

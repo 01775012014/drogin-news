@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -15,21 +16,38 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         
+        // Validate photo URL
+        if (photoUrl && !isValidUrl(photoUrl)) {
+            toast.error('Please enter a valid image URL');
+            return;
+        }
+
         createUser(email, password)
             .then(result => {
                 const user = result.user;
                 updateUserProfile(user, fullName, photoUrl)
                     .then(() => {
-                        console.log('Profile updated successfully');
+                        toast.success('Registration successful!');
                         navigate('/home');
                     })
                     .catch((error) => {
                         console.error('Error updating profile:', error);
+                        toast.error(error.message);
                     });
             })
             .catch((error) => {
-                alert(error.message);
+                toast.error(error.message);
             });
+    }
+
+    // Helper function to validate URL
+    const isValidUrl = (url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
     
     return (
@@ -43,7 +61,6 @@ const Register = () => {
                     <form className="space-y-6" onSubmit={handleRegister}>
 
                         {/* fullName */}
-
                         <div>
                             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                                 Full Name
@@ -59,7 +76,6 @@ const Register = () => {
                         </div>
 
                         {/* photoUrl */}
-
                         <div>
                             <label htmlFor="photoUrl" className="block text-sm font-medium text-gray-700">
                                 Photo URL
@@ -67,15 +83,17 @@ const Register = () => {
                             <input
                                 id="photoUrl"
                                 name="photoUrl"
-                                type="text"
+                                type="url"
                                 required
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                placeholder="Photo URL"
+                                placeholder="https://example.com/your-photo.jpg"
                             />
+                            <p className="mt-1 text-sm text-gray-500">
+                                Enter a valid image URL (e.g., https://example.com/photo.jpg)
+                            </p>
                         </div>
 
                         {/* email */}
-
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email
@@ -91,7 +109,6 @@ const Register = () => {
                         </div>
 
                         {/* password */}
-
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                 Password
@@ -126,7 +143,7 @@ const Register = () => {
 
                         <div className="flex items-center justify-between">
                             <div className="text-sm">
-                                <span>Don't Have An Account? </span>
+                                <span>Already have an account? </span>
                                 <a href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                                     Login
                                 </a>
