@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Contact from '../Components/Pages/Contact';
+import Footer from '../Components/Footer';
 
 const ContactLayout = () => {
     return (
@@ -11,6 +12,9 @@ const ContactLayout = () => {
             <main className='w-11/12 mx-auto'>
                 <Contact />
             </main>
+            <footer>
+                <Footer/>
+            </footer>
         </div>
     );
 };
